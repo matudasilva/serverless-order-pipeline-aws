@@ -58,11 +58,13 @@
 ### CI, README, and final replanning (Phase 5)
 
 - **What**: GitHub Actions workflow (`fmt -check` + `validate`, no AWS
-  credentials, no plan/apply), full portfolio README (problem statement,
-  embedded diagram, highlighted architecture decisions, repo structure,
-  how to deploy/destroy, a "Development workflow" section), an update to
-  this roadmap marking completed features, and a `specs/retrospective.md`
-  with lessons learned from the SDD process.
+  credentials, no plan/apply), full portfolio README (problem statement
+  with the `architecture.excalidraw` diagram exported and embedded,
+  highlighted architecture decisions, repo structure, how to
+  deploy/destroy, a "Development workflow" section with the
+  `sdd-terraform-workflow.excalidraw` diagram exported and embedded), an
+  update to this roadmap marking completed features, and a
+  `specs/retrospective.md` with lessons learned from the SDD process.
 - Not modeled as a separate `spec-feature` feature, since it's
   cross-cutting closing work, but it still follows the same STOP criteria
   between significant steps (e.g. before preparing repo/push commands,

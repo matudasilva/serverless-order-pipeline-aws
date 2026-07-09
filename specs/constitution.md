@@ -38,16 +38,10 @@ explicitly justified in the roadmap before implementation.
 
 ## 2. Technology stack
 
-| Component | Version / value | Notes |
-|---|---|---|
-| Terraform | `>= 1.9` | Consistent pin across `providers.tf` and CI. |
-| Cloud | AWS, region `us-east-1` | Single region; no multi-region parameterization. |
-| Lambda runtime | Python 3.12 | Upgraded from the original exercise's 3.9. |
-| CI | GitHub Actions | Scope: `fmt -check` + `validate` only (see §3). |
-
-**Cost constraint**: resources must stay within (or very close to) the AWS
-free tier. No resources that generate significant fixed cost (e.g. NAT
-Gateways, always-on instances) are provisioned.
+The full stack table (Terraform, AWS provider, runtime, CI) and the cost
+constraint live in [`specs/tech-stack.md`](tech-stack.md), kept as a
+separate living document so it can evolve (e.g. version bumps) without
+touching this constitution.
 
 **Deployment constraint**: `terraform apply` is **deferred** — the agent
 only runs `fmt`, `validate`, and `plan` locally. The architect runs `apply`
@@ -86,10 +80,14 @@ manually once all features are code-complete.
   module must be justified in the corresponding `plan.md`.
 - Terraform's `required_version` is pinned consistently in `providers.tf`
   and in the CI workflow.
+- The `hashicorp/aws` provider version constraint in `providers.tf` matches
+  what `specs/tech-stack.md` declares, same as `required_version`.
 
 ### Git and commits
 
-- One task = one commit by default.
+- One task = one commit by default; deviations (e.g. two trivial tasks
+  touching the same file) are allowed and must be noted in the
+  corresponding `tasks.md`.
 - Commit messages are written in English, Conventional Commits format.
 - All repository content — specs, plans, tasks, docs, README, code
   comments, and commit messages — is written in English.
