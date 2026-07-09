@@ -1,0 +1,35 @@
+# Spec: {{feature_name}}
+
+> Estado: Draft — pendiente de revisión del arquitecto.
+
+## Qué
+
+Descripción concisa de la funcionalidad que esta feature agrega al pipeline.
+
+## Por qué
+
+Motivación: qué parte del PoC (Exercise 1) o de la misión del portfolio
+(ver `specs/constitution.md`) cubre esta feature, y por qué es necesaria en
+este punto del roadmap.
+
+## Alcance
+
+- Incluye: ...
+- No incluye (fuera de alcance): ...
+
+## Requisitos funcionales
+
+1. ...
+2. ...
+
+## Criterios de aceptación (verificables)
+
+- [ ] Criterio 1 — debe ser verificable objetivamente (ej. "terraform plan
+      no reporta errores", "el recurso X existe con la propiedad Y", "la
+      IAM policy del rol Z no usa `Resource: \"*\"`").
+- [ ] Criterio 2 — ...
+
+## Preguntas abiertas
+
+- Lista de decisiones que requieren input del arquitecto antes de pasar a
+  `plan.md`. Vaciar esta sección antes de solicitar aprobación.

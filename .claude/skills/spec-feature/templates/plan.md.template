@@ -1,0 +1,46 @@
+# Plan: {{feature_name}}
+
+> Estado: Draft — pendiente de revisión del arquitecto.
+> Depende de: `spec.md` de esta misma feature (debe estar aprobado).
+
+## Enfoque técnico
+
+Descripción de cómo se implementa lo definido en `spec.md`: recursos AWS
+involucrados, estructura de archivos Terraform (`envs/dev/...`,
+`modules/...` si aplica), y organización del código Python en
+`src/lambdas/` cuando corresponda.
+
+## Recursos Terraform
+
+Lista de recursos a crear/modificar, con el archivo donde vivirán.
+
+| Recurso | Archivo | Notas |
+|---|---|---|
+| ... | ... | ... |
+
+## Decisiones de arquitectura (ADRs)
+
+### ADR-1: {{título}}
+
+- **Contexto**: ...
+- **Decisión**: ...
+- **Alternativas consideradas**: ...
+- **Consecuencias**: ...
+
+> Nota: toda decisión de IAM least-privilege (no usar `Resource: "*"`) debe
+> documentarse acá como ADR, según regla no negociable #4 del proyecto.
+
+## Variables y configuración
+
+Variables de entorno / Terraform variables nuevas que introduce esta
+feature (nombres, tipos, defaults, sensibilidad).
+
+## Validación
+
+Cómo se valida esta feature antes de pedir aprobación (siempre:
+`terraform fmt`, `terraform validate`, `terraform plan` — nunca `apply`,
+que queda diferido para el arquitecto).
+
+## Riesgos / trade-offs
+
+- ...
