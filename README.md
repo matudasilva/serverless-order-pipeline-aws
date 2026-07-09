@@ -1,28 +1,28 @@
 # serverless-order-pipeline-aws
 
-> Portfolio en construcción — PoC serverless en AWS (API Gateway → SQS →
-> Lambda → DynamoDB → Streams → Lambda → SNS) implementado con Terraform
-> siguiendo Spec-Driven Development (SDD) con un agente de código.
+> Portfolio in progress — a serverless PoC on AWS (API Gateway → SQS →
+> Lambda → DynamoDB → Streams → Lambda → SNS) implemented with Terraform
+> following Spec-Driven Development (SDD) with a coding agent.
 
-Este README se completa en la fase final del proyecto (ver
-`specs/roadmap.md`). Por ahora, el punto de entrada para entender el proyecto
-es:
+This README will be completed in the final phase of the project (see
+`specs/roadmap.md`). For now, the entry points to understand the project
+are:
 
-- [`specs/constitution.md`](specs/constitution.md) — misión, stack y
-  convenciones (Fase 1).
-- [`specs/roadmap.md`](specs/roadmap.md) — features planificadas (Fase 1).
-- [`specs/features/`](specs/features/) — spec/plan/tasks de cada feature.
+- [`specs/constitution.md`](specs/constitution.md) — mission, stack, and
+  conventions (Phase 1).
+- [`specs/roadmap.md`](specs/roadmap.md) — planned features (Phase 1).
+- [`specs/features/`](specs/features/) — spec/plan/tasks for each feature.
 - [`docs/reference/original-lambdas.md`](docs/reference/original-lambdas.md) —
-  código baseline del ejercicio original.
+  baseline code from the original exercise.
 
-## Estructura del repo
+## Repo structure
 
 ```
-specs/                  # Constitución, roadmap y specs/plans/tasks por feature (SDD)
-envs/dev/                # Stack de Terraform del entorno dev
-modules/                 # Módulos Terraform reutilizables (solo si aplica)
-src/lambdas/              # Código Python de las Lambdas
-docs/diagrams/            # Diagramas de arquitectura y de workflow (Excalidraw)
-docs/reference/            # Material de referencia (baseline del ejercicio)
-.github/workflows/          # CI (fmt + validate, sin apply)
+specs/                  # Constitution, roadmap, and per-feature specs/plans/tasks (SDD)
+envs/dev/                # Terraform stack for the dev environment
+modules/                 # Reusable Terraform modules (only where justified)
+src/lambdas/              # Python code for the Lambdas
+docs/diagrams/            # Architecture and workflow diagrams (Excalidraw)
+docs/reference/            # Reference material (original exercise baseline)
+.github/workflows/          # CI (fmt + validate, no apply)
 ```

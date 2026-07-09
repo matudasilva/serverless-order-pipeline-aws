@@ -1,12 +1,12 @@
-# Baseline: código original del ejercicio
+# Baseline: original exercise code
 
-> Registro del punto de partida tal como fue provisto en el ejercicio
-> "Building a Proof of Concept for a Serverless Solution" (AWS Architecting
-> Solutions), consola AWS, Python 3.9. Este código NO se despliega tal cual:
-> es la referencia sobre la cual la feature `core-pipeline` construye las
-> mejoras descritas en `specs/features/core-pipeline/plan.md` (manejo de
-> errores, logging estructurado, configuración vía variables de entorno,
-> clientes boto3 fuera del handler, IAM least-privilege).
+> Record of the starting point as provided in the "Building a Proof of
+> Concept for a Serverless Solution" exercise (AWS Architecting Solutions),
+> AWS console, Python 3.9. This code is NOT deployed as-is: it's the
+> reference on top of which the `core-pipeline` feature builds the
+> improvements described in `specs/features/core-pipeline/plan.md` (error
+> handling, structured logging, configuration via environment variables,
+> boto3 clients outside the handler, least-privilege IAM).
 
 ## Lambda 1 — POC-Lambda-1 (SQS → DynamoDB)
 
@@ -36,13 +36,13 @@ def lambda_handler(event, context):
         if record['eventName'] == 'INSERT':
             new_record = record['dynamodb']['NewImage']
             response = client.publish(
-                TargetArn='<ARN del topic SNS, hardcodeado en el original>',
+                TargetArn='<SNS topic ARN, hardcoded in the original>',
                 Message=json.dumps({'default': json.dumps(new_record)}),
                 MessageStructure='json'
             )
 ```
 
-## Arquitectura original
+## Original architecture
 
 ```
 Client → API Gateway (POST) → SQS → Lambda 1 → DynamoDB (orders)
@@ -51,5 +51,5 @@ Client → API Gateway (POST) → SQS → Lambda 1 → DynamoDB (orders)
                                                   Lambda 2 → SNS → Email
 ```
 
-Región: us-east-1. Runtime original: Python 3.9 (actualizado a 3.12 en esta
-implementación).
+Region: us-east-1. Original runtime: Python 3.9 (upgraded to 3.12 in this
+implementation).
