@@ -1,73 +1,76 @@
 ---
 name: spec-feature
-description: Genera el ciclo spec/plan/tasks de Spec-Driven Development (specs/features/<nombre>/spec.md, plan.md, tasks.md) para una feature del proyecto serverless-order-pipeline-aws. Usar cuando se arranca una feature nueva del roadmap (ej. "spec-feature core-pipeline").
+description: Generates the Spec-Driven Development spec/plan/tasks cycle (specs/features/<name>/spec.md, plan.md, tasks.md) for a feature of the serverless-order-pipeline-aws project. Use when starting a new feature from the roadmap (e.g. "spec-feature core-pipeline").
 ---
 
 # spec-feature
 
-Genera los tres artefactos del ciclo SDD (`spec.md`, `plan.md`, `tasks.md`)
-para una feature, en `specs/features/<nombre>/`. Este proyecto sigue SDD
-estricto: **no se escribe código de infraestructura hasta que el arquitecto
-(el usuario) aprueba explícitamente cada uno de estos tres archivos.**
+Generates the three SDD artifacts (`spec.md`, `plan.md`, `tasks.md`) for a
+feature, in `specs/features/<name>/`. This project follows strict SDD:
+**no infrastructure code is written until the architect (the user)
+explicitly approves each of these three files.**
 
-## Cómo invocarla
+## How to invoke it
 
-`args` es el nombre de la feature en kebab-case (ej. `core-pipeline`,
-`api-ingestion`, `diagrams`). Si no se pasa nombre, preguntar al usuario
-cuál feature del roadmap corresponde.
+`args` is the feature name in kebab-case (e.g. `core-pipeline`,
+`api-ingestion`, `diagrams`). If no name is given, ask the user which
+roadmap feature this corresponds to.
 
-## Procedimiento
+## Procedure
 
-1. **Cargar contexto del proyecto** antes de escribir nada:
-   - Leer `specs/constitution.md` (misión, stack, convenciones) si existe.
-   - Leer `specs/roadmap.md` si existe, para ubicar la entrada de esta
-     feature y su descripción de alto nivel.
-   - Si `specs/features/<nombre>/` ya existe con archivos no vacíos, avisar
-     al usuario y confirmar antes de sobrescribir (no pisar trabajo
-     existente sin permiso).
+1. **Load project context** before writing anything:
+   - Read `specs/constitution.md` (mission, conventions) if it exists.
+   - Read `specs/tech-stack.md` if it exists, for the exact version pins
+     (Terraform, `hashicorp/aws` provider, runtime) `plan.md` must stay
+     consistent with.
+   - Read `specs/roadmap.md` if it exists, to locate this feature's entry
+     and its high-level description.
+   - If `specs/features/<name>/` already exists with non-empty files,
+     warn the user and confirm before overwriting (don't clobber existing
+     work without permission).
 
-2. **Reunir los requisitos de la feature.** La descripción de alto nivel
-   suele venir del roadmap o de instrucciones del usuario en la
-   conversación actual. Si falta información necesaria para escribir
-   criterios de aceptación verificables o decisiones de arquitectura
-   (ej. no está claro qué recursos AWS toca, o hay una ambigüedad de
-   diseño no trivial) — **STOP y preguntar al usuario**, en línea con la
-   regla no negociable #8 del proyecto ("si una instrucción es ambigua,
-   STOP y preguntás"). No improvisar decisiones de arquitectura.
+2. **Gather the feature's requirements.** The high-level description
+   usually comes from the roadmap or from the user's instructions in the
+   current conversation. If information needed to write verifiable
+   acceptance criteria or architecture decisions is missing (e.g. it's
+   unclear which AWS resources are involved, or there's a non-trivial
+   design ambiguity) — **STOP and ask the user**, per the project's
+   non-negotiable rule #8 ("if an instruction is ambiguous, STOP and
+   ask"). Do not improvise architecture decisions.
 
-3. **Generar `spec.md`** a partir de
-   `.claude/skills/spec-feature/templates/spec.md.template`: qué y por qué,
-   alcance (incluye/no incluye), requisitos funcionales, criterios de
-   aceptación verificables (evitar criterios vagos — deben poder
-   chequearse con `terraform plan`, inspección de un archivo, etc.).
+3. **Generate `spec.md`** from
+   `.claude/skills/spec-feature/templates/spec.md.template`: what and why,
+   scope (in/out), functional requirements, verifiable acceptance criteria
+   (avoid vague criteria — they must be checkable via `terraform plan`,
+   inspecting a file, etc.).
 
-4. **Generar `plan.md`** a partir de
-   `.claude/skills/spec-feature/templates/plan.md.template`: enfoque
-   técnico, tabla de recursos Terraform con el archivo donde vivirán, ADRs
-   (obligatorio documentar como ADR cualquier decisión de IAM
-   least-privilege, ver regla #4), variables/configuración nueva, cómo se
-   valida (siempre `fmt` + `validate` + `plan`, nunca `apply`), riesgos.
+4. **Generate `plan.md`** from
+   `.claude/skills/spec-feature/templates/plan.md.template`: technical
+   approach, table of Terraform resources with the file they'll live in,
+   ADRs (mandatory to document any IAM least-privilege decision as an ADR,
+   see rule #4), new variables/configuration, how it's validated (always
+   `fmt` + `validate` + `plan`, never `apply`), risks.
 
-5. **Generar `tasks.md`** a partir de
-   `.claude/skills/spec-feature/templates/tasks.md.template`: checklist de
-   tareas atómicas (una por commit), cada una con su Definition of Done,
-   más una sección final de validación de la feature completa.
+5. **Generate `tasks.md`** from
+   `.claude/skills/spec-feature/templates/tasks.md.template`: checklist of
+   atomic tasks (one per commit), each with its Definition of Done, plus a
+   final section validating the complete feature.
 
-6. **Reportar y STOP.** Al terminar, resumir en 3-5 líneas qué se generó y
-   pedir explícitamente la aprobación del arquitecto antes de que cualquier
-   agente empiece a escribir Terraform o código Python para esta feature.
-   No pasar a la fase `implement` sin ese OK explícito.
+6. **Report and STOP.** When done, summarize in 3-5 lines what was
+   generated and explicitly request the architect's approval before any
+   agent starts writing Terraform or Python code for this feature. Do not
+   move to the `implement` phase without that explicit OK.
 
-## Convenciones a respetar en el contenido generado
+## Conventions to follow in generated content
 
-- Español para prosa de specs/plans (coherente con el resto de `specs/`);
-  conventional commits en inglés (regla #7 del proyecto — solo aplica a
-  mensajes de commit, no a estos documentos).
-- IAM: nunca proponer `Resource: "*"`; siempre ARNs scoped a los recursos
-  de la feature (regla #4).
-- `terraform apply` nunca aparece como tarea a ejecutar por el agente
-  (regla #2) — como mucho, una tarea de "dejar comandos preparados para
-  que el arquitecto aplique manualmente".
-- Nombres de archivos y estructura: `envs/dev/` para el stack, `modules/`
-  solo si hay reutilización real y clara — si el plan propone un módulo,
-  debe justificar por qué no alcanza con recursos inline en `envs/dev/`.
+- All content — spec/plan/tasks prose, diagram labels, code, code
+  comments — is written in English (constitution §1/§3); commit messages
+  are also in English, Conventional Commits format (rule #7).
+- IAM: never propose `Resource: "*"`; always scope ARNs to the feature's
+  resources (rule #4).
+- `terraform apply` never appears as a task for the agent to run (rule
+  #2) — at most, a task to "leave commands ready for the architect to
+  apply manually".
+- File names and structure: `envs/dev/` for the stack, `modules/` only
+  when there's real, clear reuse — if the plan proposes a module, it must
+  justify why inline resources in `envs/dev/` aren't enough.

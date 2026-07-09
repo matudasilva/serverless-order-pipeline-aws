@@ -1,35 +1,36 @@
 # Spec: {{feature_name}}
 
-> Estado: Draft — pendiente de revisión del arquitecto.
+> Status: Draft — pending architect review.
 
-## Qué
+## What
 
-Descripción concisa de la funcionalidad que esta feature agrega al pipeline.
+Concise description of the functionality this feature adds to the
+pipeline.
 
-## Por qué
+## Why
 
-Motivación: qué parte del PoC (Exercise 1) o de la misión del portfolio
-(ver `specs/constitution.md`) cubre esta feature, y por qué es necesaria en
-este punto del roadmap.
+Motivation: which part of the PoC (Exercise 1) or of the portfolio's
+mission (see `specs/constitution.md`) this feature covers, and why it's
+needed at this point in the roadmap.
 
-## Alcance
+## Scope
 
-- Incluye: ...
-- No incluye (fuera de alcance): ...
+- In scope: ...
+- Out of scope: ...
 
-## Requisitos funcionales
+## Functional requirements
 
 1. ...
 2. ...
 
-## Criterios de aceptación (verificables)
+## Acceptance criteria (verifiable)
 
-- [ ] Criterio 1 — debe ser verificable objetivamente (ej. "terraform plan
-      no reporta errores", "el recurso X existe con la propiedad Y", "la
-      IAM policy del rol Z no usa `Resource: \"*\"`").
-- [ ] Criterio 2 — ...
+- [ ] Criterion 1 — must be objectively verifiable (e.g. "`terraform
+      plan` reports no errors", "resource X exists with property Y",
+      "role Z's IAM policy doesn't use `Resource: \"*\"`").
+- [ ] Criterion 2 — ...
 
-## Preguntas abiertas
+## Open questions
 
-- Lista de decisiones que requieren input del arquitecto antes de pasar a
-  `plan.md`. Vaciar esta sección antes de solicitar aprobación.
+- List of decisions that need architect input before moving on to
+  `plan.md`. Empty this section before requesting approval.

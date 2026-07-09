@@ -1,46 +1,46 @@
 # Plan: {{feature_name}}
 
-> Estado: Draft — pendiente de revisión del arquitecto.
-> Depende de: `spec.md` de esta misma feature (debe estar aprobado).
+> Status: Draft — pending architect review.
+> Depends on: this feature's `spec.md` (must be approved).
 
-## Enfoque técnico
+## Technical approach
 
-Descripción de cómo se implementa lo definido en `spec.md`: recursos AWS
-involucrados, estructura de archivos Terraform (`envs/dev/...`,
-`modules/...` si aplica), y organización del código Python en
-`src/lambdas/` cuando corresponda.
+Description of how what's defined in `spec.md` gets implemented: AWS
+resources involved, Terraform file structure (`envs/dev/...`,
+`modules/...` if applicable), and organization of Python code in
+`src/lambdas/` where relevant.
 
-## Recursos Terraform
+## Terraform resources
 
-Lista de recursos a crear/modificar, con el archivo donde vivirán.
+List of resources to be created/modified, with the file they'll live in.
 
-| Recurso | Archivo | Notas |
+| Resource | File | Notes |
 |---|---|---|
 | ... | ... | ... |
 
-## Decisiones de arquitectura (ADRs)
+## Architecture decisions (ADRs)
 
-### ADR-1: {{título}}
+### ADR-1: {{title}}
 
-- **Contexto**: ...
-- **Decisión**: ...
-- **Alternativas consideradas**: ...
-- **Consecuencias**: ...
+- **Context**: ...
+- **Decision**: ...
+- **Alternatives considered**: ...
+- **Consequences**: ...
 
-> Nota: toda decisión de IAM least-privilege (no usar `Resource: "*"`) debe
-> documentarse acá como ADR, según regla no negociable #4 del proyecto.
+> Note: any IAM least-privilege decision (not using `Resource: "*"`) must
+> be documented here as an ADR, per the project's non-negotiable rule #4.
 
-## Variables y configuración
+## Variables and configuration
 
-Variables de entorno / Terraform variables nuevas que introduce esta
-feature (nombres, tipos, defaults, sensibilidad).
+New environment variables / Terraform variables introduced by this
+feature (names, types, defaults, sensitivity).
 
-## Validación
+## Validation
 
-Cómo se valida esta feature antes de pedir aprobación (siempre:
-`terraform fmt`, `terraform validate`, `terraform plan` — nunca `apply`,
-que queda diferido para el arquitecto).
+How this feature is validated before requesting approval (always:
+`terraform fmt`, `terraform validate`, `terraform plan` — never `apply`,
+which is deferred to the architect).
 
-## Riesgos / trade-offs
+## Risks / trade-offs
 
 - ...
