@@ -113,7 +113,12 @@ profile: `AWS_PROFILE=serverless-pipeline terraform plan -var="notification_emai
   API Gateway access logging for the whole AWS account. Confirmed via
   `aws apigateway get-account` that no `cloudwatchRoleArn` is currently
   set for this account, so there's no existing configuration to collide
-  with or import.
+  with or import. That role's policy is a custom document scoped to this
+  feature's access log group ARN (`logs:CreateLogStream`/`PutLogEvents`/
+  `DescribeLogGroups`/`DescribeLogStreams`), not AWS's suggested
+  `AmazonAPIGatewayPushToCloudWatchLogs` managed policy — that managed
+  policy grants `Resource: "*"`, which rule #4 disallows even for this
+  account-scoped role.
 - **Alternatives considered**: no access logging — rejected, loses the
   ability to demonstrate/debug traffic for a portfolio PoC.
 - **Consequences**: one more explicit log group (bounded retention, same

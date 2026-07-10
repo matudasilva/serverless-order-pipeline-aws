@@ -162,3 +162,95 @@ resource "aws_api_gateway_integration_response" "post_orders_500" {
 
   depends_on = [aws_api_gateway_integration.post_orders]
 }
+
+resource "aws_api_gateway_deployment" "poc_api" {
+  rest_api_id = aws_api_gateway_rest_api.poc_api.id
+
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_method.post_orders.id,
+      aws_api_gateway_integration.post_orders.id,
+      aws_iam_role_policy.api_gateway_sqs.id,
+    ]))
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_cloudwatch_log_group" "api_gateway_access_logs" {
+  name              = "/aws/apigateway/POC-API/dev-access-logs"
+  retention_in_days = 14
+}
+
+# aws_api_gateway_account is account-scoped, not API-scoped: it sets the
+# single IAM role API Gateway uses account-wide to write access/execution
+# logs to CloudWatch. Confirmed via `aws apigateway get-account` that no
+# cloudwatchRoleArn is currently set for this account, so applying this
+# has no existing configuration to collide with.
+data "aws_iam_policy_document" "api_gateway_cloudwatch_assume" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "api_gateway_cloudwatch" {
+  name               = "poc-api-gateway-cloudwatch-role"
+  assume_role_policy = data.aws_iam_policy_document.api_gateway_cloudwatch_assume.json
+}
+
+# Scoped to this feature's access log group only, instead of AWS's
+# suggested AmazonAPIGatewayPushToCloudWatchLogs managed policy (which
+# grants Resource: "*") — keeps this account-scoped role compliant with
+# rule #4, even though the role itself isn't limited to POC-API alone.
+data "aws_iam_policy_document" "api_gateway_cloudwatch" {
+  statement {
+    sid    = "WriteAccessLogs"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+    ]
+    resources = ["${aws_cloudwatch_log_group.api_gateway_access_logs.arn}:*"]
+  }
+}
+
+resource "aws_iam_role_policy" "api_gateway_cloudwatch" {
+  name   = "poc-api-gateway-cloudwatch-policy"
+  role   = aws_iam_role.api_gateway_cloudwatch.id
+  policy = data.aws_iam_policy_document.api_gateway_cloudwatch.json
+}
+
+resource "aws_api_gateway_account" "this" {
+  cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch.arn
+}
+
+resource "aws_api_gateway_stage" "dev" {
+  rest_api_id   = aws_api_gateway_rest_api.poc_api.id
+  deployment_id = aws_api_gateway_deployment.poc_api.id
+  stage_name    = "dev"
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_gateway_access_logs.arn
+    format = jsonencode({
+      requestId      = "$context.requestId"
+      ip             = "$context.identity.sourceIp"
+      requestTime    = "$context.requestTime"
+      httpMethod     = "$context.httpMethod"
+      resourcePath   = "$context.resourcePath"
+      status         = "$context.status"
+      responseLength = "$context.responseLength"
+    })
+  }
+
+  depends_on = [aws_api_gateway_account.this]
+}
