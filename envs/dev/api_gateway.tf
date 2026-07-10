@@ -206,21 +206,28 @@ resource "aws_iam_role" "api_gateway_cloudwatch" {
   assume_role_policy = data.aws_iam_policy_document.api_gateway_cloudwatch_assume.json
 }
 
-# Scoped to this feature's access log group only, instead of AWS's
-# suggested AmazonAPIGatewayPushToCloudWatchLogs managed policy (which
-# grants Resource: "*") — keeps this account-scoped role compliant with
-# rule #4, even though the role itself isn't limited to POC-API alone.
+# Resource: "*" here is a forced exception to this project's least-
+# privilege rule (#4), not a choice — AWS validates this account-level
+# role at UpdateAccount time and rejects any policy scoped below
+# Resource: "*" for these CloudWatch Logs actions, since the service
+# must be able to create/write log groups dynamically for any API in
+# the account. Confirmed by a real `terraform apply` failure with the
+# log-group-scoped policy this project originally shipped. See ADR-10
+# in plan.md.
 data "aws_iam_policy_document" "api_gateway_cloudwatch" {
   statement {
-    sid    = "WriteAccessLogs"
+    sid    = "WriteApiGatewayLogs"
     effect = "Allow"
     actions = [
+      "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:PutLogEvents",
       "logs:DescribeLogGroups",
       "logs:DescribeLogStreams",
+      "logs:PutLogEvents",
+      "logs:GetLogEvents",
+      "logs:FilterLogEvents",
     ]
-    resources = ["${aws_cloudwatch_log_group.api_gateway_access_logs.arn}:*"]
+    resources = ["*"]
   }
 }
 

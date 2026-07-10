@@ -47,13 +47,13 @@ Region: `us-east-1` (single region, no multi-environment — see
 The full decision log (with context, alternatives, and consequences) is
 in each feature's `plan.md` under `specs/features/`. Headlines:
 
-- **Least privilege everywhere, no exceptions.** Every IAM policy in this
-  repo is scoped to the exact ARN of the resource it needs — no
-  `Resource: "*"`, not even for the AWS-suggested CloudWatch logging
-  managed policy, which this repo replaces with a custom policy scoped to
-  its own log group
+- **Least privilege by default, with one documented, AWS-forced
+  exception.** Every IAM policy in this repo is scoped to the exact ARN
+  of the resource it needs — except the account-level API Gateway
+  CloudWatch role, which AWS itself rejects at `apply` time if scoped
+  below `Resource: "*"` for CloudWatch Logs actions
   ([`core-pipeline` ADR-2](specs/features/core-pipeline/plan.md),
-  [`api-ingestion` ADR-6/ADR-9](specs/features/api-ingestion/plan.md)).
+  [`api-ingestion` ADR-6/ADR-9/ADR-10](specs/features/api-ingestion/plan.md)).
 - **Decoupling with a safety net.** SQS sits between the API and the
   processing Lambda, and `POC-Queue` has a dead-letter queue so a
   poison-pill message gets set aside after 5 failed attempts instead of

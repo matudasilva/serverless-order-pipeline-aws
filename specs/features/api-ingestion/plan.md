@@ -16,6 +16,11 @@
   IaC portfolio work; JSON response instead of raw SQS XML (ADR-8).
 - **Key risks**: none — additive only, no `core-pipeline` resource is
   touched.
+- **Post-implementation fix**: `apply` initially failed on
+  `aws_api_gateway_account` — AWS rejects the account-level CloudWatch
+  role if it's scoped below `Resource: "*"` for CloudWatch Logs actions.
+  ADR-10 documents this as the project's sole forced exception to the
+  no-`Resource: "*"` rule.
 
 ## Technical approach
 
@@ -112,17 +117,47 @@ profile: `AWS_PROFILE=serverless-pipeline terraform plan -var="notification_emai
   API Gateway access logging for the whole AWS account. Confirmed via
   `aws apigateway get-account` that no `cloudwatchRoleArn` is currently
   set for this account, so there's no existing configuration to collide
-  with or import. That role's policy is a custom document scoped to this
-  feature's access log group ARN (`logs:CreateLogStream`/`PutLogEvents`/
-  `DescribeLogGroups`/`DescribeLogStreams`), not AWS's suggested
-  `AmazonAPIGatewayPushToCloudWatchLogs` managed policy — that managed
-  policy grants `Resource: "*"`, which rule #4 disallows even for this
-  account-scoped role.
+  with or import. That role's policy started as a custom document scoped
+  to this feature's access log group ARN, rather than AWS's suggested
+  `AmazonAPIGatewayPushToCloudWatchLogs` managed policy — but AWS itself
+  rejects that narrower scoping at `apply` time; see ADR-10 for what the
+  policy actually had to become and why.
 - **Alternatives considered**: no access logging — rejected, loses the
   ability to demonstrate/debug traffic for a portfolio PoC.
 - **Consequences**: one more explicit log group (bounded retention, same
   hygiene as ADR-4) and one account-scoped resource whose effect isn't
   limited to this feature's API.
+
+### ADR-10: CloudWatch role for `aws_api_gateway_account` requires `Resource: "*"`
+
+- **Context**: `aws_api_gateway_account` is an account-scoped setting.
+  AWS validates the associated IAM role at configuration time against a
+  minimum set of CloudWatch Logs actions, and rejects any role that
+  scopes those actions below `Resource: "*"` — the service needs to
+  create and write log groups dynamically for any API in the account,
+  not just the one this project manages.
+- **Decision**: the `api_gateway_cloudwatch` role's policy uses
+  `Resource: "*"` for CloudWatch Logs actions
+  (`CreateLogGroup`/`CreateLogStream`/`DescribeLogGroups`/
+  `DescribeLogStreams`/`PutLogEvents`/`GetLogEvents`/`FilterLogEvents`)
+  only. This is the sole exception to `core-pipeline`'s ADR-2 in this
+  project, forced by an AWS structural constraint, not by choice. Every
+  other IAM policy in this project remains scoped to exact ARNs. The
+  feature's own access-log group
+  (`aws_cloudwatch_log_group.api_gateway_access_logs`) is unaffected —
+  it keeps its explicit declaration and bounded retention regardless of
+  what this account-level role can reach.
+- **Alternatives considered**: scoping to a log-group prefix pattern
+  (`arn:aws:logs:us-east-1:<account>:log-group:/aws/apigateway/*`) —
+  rejected because AWS's own `UpdateAccount` validation rejects it,
+  confirmed by a real `terraform apply` failure
+  (`BadRequestException: The role ARN does not have required
+  permissions configured.`) against the log-group-scoped policy ADR-9
+  originally shipped.
+- **Consequences**: this account-scoped role can now write to any log
+  group in the account, not just this project's — an unavoidable
+  consequence of how `aws_api_gateway_account` works, not a widening of
+  scope this project chose.
 
 ## Variables and configuration
 

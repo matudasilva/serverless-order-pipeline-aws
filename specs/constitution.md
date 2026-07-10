@@ -77,7 +77,11 @@ manually once all features are code-complete.
   of the resources created by this project. This is a deliberate
   improvement over the original exercise (which doesn't require it) and
   must be documented as an ADR in the `plan.md` of the feature that
-  introduces it.
+  introduces it. The one known exception is `api-ingestion`'s
+  account-level API Gateway CloudWatch role, which AWS itself refuses to
+  accept scoped below `Resource: "*"` — see
+  [`api-ingestion` ADR-10](features/api-ingestion/plan.md) for why this
+  is a structural AWS constraint, not a choice.
 
 ### Terraform structure
 
