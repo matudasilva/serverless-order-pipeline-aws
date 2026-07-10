@@ -6,16 +6,6 @@ coding agent to infrastructure work: better IAM scoping, an auditable
 decision trail, and architecture improvements the original exercise
 never asked for.
 
-## Problem
-
-A production-minded serverless pipeline built from a course exercise:
-the same architecture, rebuilt with least-privilege IAM, dead-letter
-queues, structured logging, and auditable infrastructure-as-code — the
-kind of decisions that don't show up in console tutorials. The baseline
-console exercise (`docs/reference/original-lambdas.md`) proves the
-concept works; this repo takes that same shape and rebuilds it as
-auditable, least-privilege infrastructure as code.
-
 ## Architecture
 
 <img src="docs/diagrams/architecture.png" width="500"
@@ -47,13 +37,13 @@ Region: `us-east-1` (single region, no multi-environment — see
 The full decision log (with context, alternatives, and consequences) is
 in each feature's `plan.md` under `specs/features/`. Headlines:
 
-- **Least privilege by default, with one documented, AWS-forced
-  exception.** Every IAM policy in this repo is scoped to the exact ARN
-  of the resource it needs — except the account-level API Gateway
-  CloudWatch role, which AWS itself rejects at `apply` time if scoped
-  below `Resource: "*"` for CloudWatch Logs actions
+- **Least privilege everywhere, with one documented exception.** Every
+  IAM policy is scoped to the exact ARN of the resource it needs — no
+  `Resource: "*"`, except for the account-level API Gateway CloudWatch
+  role, which AWS structurally requires to have broader CloudWatch Logs
+  permissions
   ([`core-pipeline` ADR-2](specs/features/core-pipeline/plan.md),
-  [`api-ingestion` ADR-6/ADR-9/ADR-10](specs/features/api-ingestion/plan.md)).
+  [`api-ingestion` ADR-10](specs/features/api-ingestion/plan.md)).
 - **Decoupling with a safety net.** SQS sits between the API and the
   processing Lambda, and `POC-Queue` has a dead-letter queue so a
   poison-pill message gets set aside after 5 failed attempts instead of

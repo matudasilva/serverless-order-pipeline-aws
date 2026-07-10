@@ -63,3 +63,30 @@
   meant to demonstrate auditability, attaching (or linking to) the actual
   plan output per feature would strengthen the "reviewer can verify this
   really works" story this repo is trying to tell.
+
+## Architect's perspective
+
+Working this way felt right from the start — the approval gates gave real
+confidence that what the agent was building matched the intended design,
+and the specs/plans/tasks trail means the project is documented as a
+byproduct of the process, not as extra work at the end.
+
+The main friction was document fatigue: reading spec.md, plan.md, and
+tasks.md for every feature adds up, especially when documents are longer
+than the review bandwidth actually needs. The "Review summary" convention
+helped significantly once it was introduced mid-project — it should be
+the first thing the spec-feature skill generates, not something added
+after the fact.
+
+The tradeoff feels worth it: slower than just asking an agent to "build
+this", but the output is auditable, the decisions are traceable, and
+nothing shipped that wasn't explicitly reviewed and approved.
+
+## End-to-end validation
+
+The pipeline was verified live against a real AWS account before destroy:
+a curl POST to the deployed API returned a JSON response with a messageId,
+the order appeared in DynamoDB within seconds, Lambda 2 picked up the
+DynamoDB Streams INSERT event and published to SNS, and an email
+notification arrived at the subscribed address. All 34 resources were
+then cleanly destroyed with terraform destroy, 0 remaining.
