@@ -1,10 +1,10 @@
 # serverless-order-pipeline-aws
 
-A serverless order-ingestion pipeline on AWS, built as a Proof of Concept
-for "Exercise 1 – Building a Proof of Concept for a Serverless Solution"
-(AWS Architecting Solutions), implemented entirely in Terraform and
-produced through Spec-Driven Development (SDD) with an AI coding agent
-under human architectural ownership.
+Starting from a classic AWS Architecting Solutions exercise, this repo
+explores what happens when you apply Spec-Driven Development and an AI
+coding agent to infrastructure work: better IAM scoping, an auditable
+decision trail, and architecture improvements the original exercise
+never asked for.
 
 ## Problem
 
