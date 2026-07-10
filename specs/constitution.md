@@ -38,10 +38,14 @@ explicitly justified in the roadmap before implementation.
 
 ## 2. Technology stack
 
-The full stack table (Terraform, AWS provider, runtime, CI) and the cost
-constraint live in [`specs/tech-stack.md`](tech-stack.md), kept as a
-separate living document so it can evolve (e.g. version bumps) without
-touching this constitution.
+Stack versions and pins (Terraform, providers, runtime, CI) are the
+single source of truth in [`specs/tech-stack.md`](tech-stack.md), kept as
+a separate living document so it can evolve (e.g. version bumps) without
+touching this constitution. This constitution keeps only the constraints:
+
+**Cost constraint**: resources must stay within (or very close to) the AWS
+free tier. No resources that generate significant fixed cost (e.g. NAT
+Gateways, always-on instances) are provisioned.
 
 **Deployment constraint**: `terraform apply` is **deferred** — the agent
 only runs `fmt`, `validate`, and `plan` locally. The architect runs `apply`
@@ -61,6 +65,9 @@ manually once all features are code-complete.
   `spec.md` and `plan.md` are approved.
 - Every SDD artifact lives in `specs/` and is committed — it's part of the
   portfolio, not disposable material.
+- `spec.md` and `plan.md` open with a "Review summary" (≤10 lines):
+  decisions needing approval, deviations from the baseline, and key
+  risks. Full detail follows below it, to keep review bandwidth low.
 - When an instruction or requirement is ambiguous: STOP and ask. Do not
   improvise architecture or scope decisions.
 

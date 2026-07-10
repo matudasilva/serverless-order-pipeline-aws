@@ -3,6 +3,12 @@
 > Status: Draft — pending architect review.
 > Depends on: this feature's `spec.md` (must be approved).
 
+## Review summary
+
+- **Decisions needing approval**: ...
+- **Deviations from the baseline/original exercise**: ...
+- **Key risks**: ...
+
 ## Technical approach
 
 Description of how what's defined in `spec.md` gets implemented: AWS
@@ -10,13 +16,14 @@ resources involved, Terraform file structure (`envs/dev/...`,
 `modules/...` if applicable), and organization of Python code in
 `src/lambdas/` where relevant.
 
-## Terraform resources
+## Files and responsibilities
 
-List of resources to be created/modified, with the file they'll live in.
+Short list of the files this feature adds/touches and what each is
+responsible for — not an exhaustive resource-attribute table. The code is
+the source of truth for resource attributes; call out only non-obvious
+resources, naming decisions, or cross-file dependencies here.
 
-| Resource | File | Notes |
-|---|---|---|
-| ... | ... | ... |
+- `envs/dev/{{file}}.tf` — {{responsibility}}
 
 ## Architecture decisions (ADRs)
 
@@ -24,7 +31,7 @@ List of resources to be created/modified, with the file they'll live in.
 
 - **Context**: ...
 - **Decision**: ...
-- **Alternatives considered**: ...
+- **Alternatives considered**: {{one line}}
 - **Consequences**: ...
 
 > Note: any IAM least-privilege decision (not using `Resource: "*"`) must
@@ -39,7 +46,9 @@ feature (names, types, defaults, sensitivity).
 
 How this feature is validated before requesting approval (always:
 `terraform fmt`, `terraform validate`, `terraform plan` — never `apply`,
-which is deferred to the architect).
+which is deferred to the architect). Note any manual-apply caveats here
+(e.g. a resource that stays pending until a human completes a step
+Terraform can't, like an SNS email confirmation).
 
 ## Risks / trade-offs
 
