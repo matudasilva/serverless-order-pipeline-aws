@@ -8,16 +8,19 @@ under human architectural ownership.
 
 ## Problem
 
-The exercise: accept an order over HTTP, process it asynchronously and
-durably, and notify a stakeholder by email when it lands — without
-managing a single server. The baseline console exercise
-(`docs/reference/original-lambdas.md`) proves the concept works; this
-repo takes that same shape and rebuilds it as auditable, least-privilege
-infrastructure as code.
+A production-minded serverless pipeline built from a course exercise:
+the same architecture, rebuilt with least-privilege IAM, dead-letter
+queues, structured logging, and auditable infrastructure-as-code — the
+kind of decisions that don't show up in console tutorials. The baseline
+console exercise (`docs/reference/original-lambdas.md`) proves the
+concept works; this repo takes that same shape and rebuilds it as
+auditable, least-privilege infrastructure as code.
 
 ## Architecture
 
-<img src="docs/diagrams/architecture.png" alt="Solution architecture: Client to API Gateway to SQS to Lambda 1 to DynamoDB to Lambda 2 to SNS to Email" width="640">
+<img src="docs/diagrams/architecture.png" width="500"
+alt="Solution architecture: Client to API Gateway to SQS to Lambda 1
+to DynamoDB to Lambda 2 to SNS to Email"/>
 
 ```
 Client --POST /orders--> API Gateway --SendMessage--> SQS (POC-Queue)
@@ -133,7 +136,8 @@ with an AI coding agent working under explicit human architectural
 ownership: the agent drafts and implements, the architect designs,
 reviews, and is the only one who ever runs `terraform apply`.
 
-<img src="docs/diagrams/sdd-terraform-workflow.png" alt="SDD + Terraform workflow: Architect and Coding agent swimlanes showing the specify, plan, tasks, approval gate, implement, validate, review gate, replanning cycle, and the manual apply/verify/destroy sequence outside the loop" width="640">
+<img src="docs/diagrams/sdd-terraform-workflow.png" width="600"
+alt="SDD + Terraform workflow: Architect and Coding agent swimlanes"/>
 
 **Setup, once**: the agent drafts `specs/constitution.md` (mission, stack,
 conventions) and `specs/roadmap.md` (planned features); the architect
