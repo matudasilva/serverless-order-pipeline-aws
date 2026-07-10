@@ -12,7 +12,7 @@
 | 2 | Feature `core-pipeline` | ✅ Done | Spec/plan/tasks approved; implemented and pushed (`fmt`/`validate`/`plan` all clean, 16 resources planned). |
 | 3 | Feature `api-ingestion` | ✅ Done | Approved (with design review changes: `/orders` path, JSON response mapping, error mapping, access logging); implemented and pushed (34 resources planned, 0 changed on `core-pipeline`). |
 | 4 | Feature `diagrams` | ✅ Done | Both diagrams authored, reoriented to vertical per architect feedback, manually reviewed and PNG-exported for the README. |
-| 5 | CI, README, and final replanning | 🟡 In progress | CI workflow added; README, retrospective, and this update in progress. |
+| 5 | CI, README, and final replanning | ✅ Done | CI workflow, portfolio README (both diagrams embedded), and `specs/retrospective.md` all in place. |
 
 **Deployment status**: nothing has been applied to AWS yet. `terraform apply`
 stays a manual, architect-run action (see the README's "How to deploy")
