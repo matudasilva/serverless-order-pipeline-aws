@@ -54,14 +54,25 @@ included as a code comment / note during implementation for convenience
 
 ## Files and responsibilities
 
-- `docs/diagrams/architecture.excalidraw` — solution architecture: 4
-  layer zones (ingestion/processing/persistence/notification), 8 labeled
-  component boxes, labeled arrows, legend (region + IAM note).
-- `docs/diagrams/sdd-terraform-workflow.excalidraw` — 2 swimlanes
-  (Architect/Coding agent), one-time setup, per-feature cycle with an
-  approval-gate diamond, the manual apply/verify/destroy sequence pulled
-  visually outside the agent loop, legend distinguishing gates from
-  automated steps.
+- `docs/diagrams/architecture.excalidraw` — solution architecture,
+  **vertical orientation** (components stacked top-to-bottom, zones as
+  horizontal bands) to embed cleanly in a README: 4 layer zones
+  (ingestion/processing/persistence/notification), 8 labeled component
+  boxes, labeled arrows, legend (region + IAM note). Bounding box ~620 x
+  1770 (portrait).
+- `docs/diagrams/sdd-terraform-workflow.excalidraw` — **vertical
+  orientation**: the two swimlanes became two side-by-side columns
+  (Architect | Coding agent) with the flow running top-to-bottom instead
+  of left-to-right; reject/repeat loop-backs route through nested lanes
+  in the left margin to avoid crossing the columns. One-time setup,
+  per-feature cycle with 2 approval-gate diamonds, the manual
+  apply/verify/destroy sequence separated by a divider below the loop,
+  legend distinguishing gates from automated/human-only steps. Bounding
+  box ~1050 x 2880 (portrait).
+- Reoriented from an initial horizontal layout per architect feedback
+  after reviewing the first version — horizontal fits a wide screen but
+  wastes width and shrinks badly in a README's column width; portrait
+  orientation reads better inline.
 
 ## Variables and configuration
 
