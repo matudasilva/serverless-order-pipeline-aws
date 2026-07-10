@@ -9,10 +9,15 @@
 |---|---|---|---|
 | 0 | Repo bootstrap and workflow skill | ✅ Done | Repo created and pushed to `github.com/matudasilva/serverless-order-pipeline-aws`. `spec-feature` skill created. |
 | 1 | Constitution and roadmap | ✅ Done | `constitution.md` and this `roadmap.md` approved. |
-| 2 | Feature `core-pipeline` | ✅ Done | Spec/plan/tasks approved; implemented and pushed (`fmt`/`validate`/`plan` all clean, 16 resources planned). Not yet applied — deferred to Phase 5. |
-| 3 | Feature `api-ingestion` | 🟡 In review | `spec.md`/`plan.md`/`tasks.md` drafted, awaiting architect approval before `implement`. |
-| 4 | Feature `diagrams` | ⬜ Pending | Could conceptually be done in parallel, but it's better to do it once the pipeline is defined, so the architecture diagram is accurate. |
-| 5 | CI, README, and final replanning | ⬜ Pending | Closes out the project: CI, portfolio README, retrospective. |
+| 2 | Feature `core-pipeline` | ✅ Done | Spec/plan/tasks approved; implemented and pushed (`fmt`/`validate`/`plan` all clean, 16 resources planned). |
+| 3 | Feature `api-ingestion` | ✅ Done | Approved (with design review changes: `/orders` path, JSON response mapping, error mapping, access logging); implemented and pushed (34 resources planned, 0 changed on `core-pipeline`). |
+| 4 | Feature `diagrams` | ✅ Done | Both diagrams authored, reoriented to vertical per architect feedback, manually reviewed and PNG-exported for the README. |
+| 5 | CI, README, and final replanning | 🟡 In progress | CI workflow added; README, retrospective, and this update in progress. |
+
+**Deployment status**: nothing has been applied to AWS yet. `terraform apply`
+stays a manual, architect-run action (see the README's "How to deploy")
+whenever the architect chooses to stand the pipeline up — it isn't a
+repo task with its own phase.
 
 ## Features (detail)
 
