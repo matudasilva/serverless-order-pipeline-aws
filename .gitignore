@@ -14,6 +14,8 @@ terraform.rc
 *.tfvars
 *.tfvars.json
 !*.tfvars.example
+.build/
+*.zip
 
 # Python
 __pycache__/
