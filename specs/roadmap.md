@@ -8,9 +8,9 @@
 | Phase | Name | Status | Notes |
 |---|---|---|---|
 | 0 | Repo bootstrap and workflow skill | ✅ Done | Repo created and pushed to `github.com/matudasilva/serverless-order-pipeline-aws`. `spec-feature` skill created. |
-| 1 | Constitution and roadmap | 🟡 Under review | `constitution.md` and this `roadmap.md` awaiting approval. |
-| 2 | Feature `core-pipeline` | ⬜ Pending | See detail below. |
-| 3 | Feature `api-ingestion` | ⬜ Pending | Depends on `core-pipeline` (needs the SQS queue in place). |
+| 1 | Constitution and roadmap | ✅ Done | `constitution.md` and this `roadmap.md` approved. |
+| 2 | Feature `core-pipeline` | ✅ Done | Spec/plan/tasks approved; implemented and pushed (`fmt`/`validate`/`plan` all clean, 16 resources planned). Not yet applied — deferred to Phase 5. |
+| 3 | Feature `api-ingestion` | 🟡 In review | `spec.md`/`plan.md`/`tasks.md` drafted, awaiting architect approval before `implement`. |
 | 4 | Feature `diagrams` | ⬜ Pending | Could conceptually be done in parallel, but it's better to do it once the pipeline is defined, so the architecture diagram is accurate. |
 | 5 | CI, README, and final replanning | ⬜ Pending | Closes out the project: CI, portfolio README, retrospective. |
 
