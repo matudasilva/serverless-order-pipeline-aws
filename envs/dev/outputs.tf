@@ -17,3 +17,8 @@ output "orders_notifications_topic_arn" {
   description = "ARN of the POC-Topic SNS topic."
   value       = aws_sns_topic.orders_notifications.arn
 }
+
+output "api_invoke_url" {
+  description = "Invoke URL of the dev stage of POC-API (append /orders to POST an order)."
+  value       = aws_api_gateway_stage.dev.invoke_url
+}
