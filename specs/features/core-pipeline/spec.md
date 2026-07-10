@@ -1,6 +1,6 @@
 # Spec: core-pipeline
 
-> Status: Draft — pending architect review.
+> Status: Approved and implemented.
 
 ## Review summary
 

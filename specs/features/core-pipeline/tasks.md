@@ -1,8 +1,7 @@
 # Tasks: core-pipeline
 
-> Status: Draft — pending final architect confirmation after the design
-> review fixes in this pass (ADR-3 approved: DLQ scope stays in T4/T7).
-> Depends on: `plan.md` of this feature (must be approved).
+> Status: Approved and implemented.
+> Depends on: `plan.md` of this feature (approved).
 > Each task should result in an atomic commit (Conventional Commits, in
 > English).
 

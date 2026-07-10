@@ -1,6 +1,6 @@
 # Spec: api-ingestion
 
-> Status: Draft — pending architect review.
+> Status: Approved and implemented.
 
 ## Review summary
 

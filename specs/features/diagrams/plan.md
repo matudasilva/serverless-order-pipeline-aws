@@ -1,7 +1,7 @@
 # Plan: diagrams
 
-> Status: Draft — pending architect review.
-> Depends on: `spec.md` of this feature (must be approved).
+> Status: Approved and implemented.
+> Depends on: `spec.md` of this feature (approved).
 
 ## Review summary
 

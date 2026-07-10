@@ -1,9 +1,8 @@
 # Plan: api-ingestion
 
-> Status: Draft — pending architect review.
-> Depends on: `spec.md` of this feature (must be approved); `core-pipeline`
-> must already be applied in code (it is — `POC-Queue` exists in
-> `envs/dev/sqs.tf`; no need for it to be deployed to AWS yet).
+> Status: Approved and implemented.
+> Depends on: `spec.md` of this feature (approved); `core-pipeline`'s
+> `POC-Queue` (exists in `envs/dev/sqs.tf`; not yet deployed to AWS).
 
 ## Review summary
 

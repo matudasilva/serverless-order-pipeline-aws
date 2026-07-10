@@ -1,7 +1,7 @@
 # Tasks: api-ingestion
 
-> Status: Draft — pending architect review.
-> Depends on: `plan.md` of this feature (must be approved).
+> Status: Approved and implemented.
+> Depends on: `plan.md` of this feature (approved).
 > Local `plan`/`validate` runs use `AWS_PROFILE=serverless-pipeline`.
 > Each task should result in an atomic commit (Conventional Commits, in
 > English).
